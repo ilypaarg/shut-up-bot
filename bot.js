@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 const client = new Discord.Client();
+const fetch = require('node-fetch');
 client.login(process.env.shutup_token);
 
 client.on('ready', readyDiscord()
@@ -55,4 +56,14 @@ async function gotMessage(msg)
     const m = (Math.floor(Math.random() * messages.length));
     msg.reply(messages[p]);
   }
+  else
+  {
+    if (msg.content === 'no')
+    {
+      let url = `https://g.tenor.com/v1/search?q=shutup&key=${process.env.tenor_key}&limit=8`
+      let response = await fetch(url);
+      let json = await response.json();
+      let stfu = Math.floor(Math.random() * json.results.length);
+      
+      msg.reply(json.results[stfu].url);
 }
